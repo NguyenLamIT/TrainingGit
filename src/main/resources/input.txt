@@ -1,0 +1,4 @@
+name, dob, role, startdate, startsal
+nguyen van A, 2020-2-20, director, 2020-3-30, 8000
+nguyen van B, 2020-2-21, manager, 2020-3-29, 8500
+nguyen van C, 2020-2-22, sales, 2020-3-28, 5500
