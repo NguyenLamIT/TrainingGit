@@ -28,6 +28,8 @@ public enum Role {
                 return ENGINEER;
             case "staff":
                 return STAFF;
+            case "worker":
+                return WORKER;
             default:
                 return null;
         }

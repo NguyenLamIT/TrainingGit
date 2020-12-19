@@ -5,15 +5,19 @@ import utils.Utils;
 
 import javax.rmi.CORBA.Util;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Employee {
+    private final static double INCRE_MULTI_NUMBER = 0.06;
     private String name;
     private String dob;
     private Role role;
     private String startDate;
-    private float startSal;
+    private double startSal;
 
     public void setName(String name) {
         this.name = name;
@@ -51,16 +55,28 @@ public class Employee {
         return startDate;
     }
 
-    public float getStartSal() {
+    public double getStartSal() {
         return startSal;
     }
 
-    public int getAgeFromDob() {
-        Date now = Utils.getDateNow();
-        Date birthDate = Utils.parseStringToDate(dob);
-        long diffInMillies = Math.abs(now.getTime() - birthDate.getTime());
-        long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    public double getAge() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate birthDay = LocalDate.parse(this.dob, dateFormatter);
+        return birthDay.until(LocalDate.now(), ChronoUnit.DAYS) / 365.2425f;
+    }
 
-        return (int)diffInDays / 365;
+    public double getSalary() {
+        int month = getWorkMonth();
+        if (month >= 12) {
+            return startSal + INCRE_MULTI_NUMBER * startSal;
+        }
+
+        return startSal;
+    }
+
+    private int getWorkMonth() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startWorkDate = LocalDate.parse(this.startDate, dateFormatter);
+        return (int)startWorkDate.until(LocalDate.now(), ChronoUnit.DAYS) / 30;
     }
 }

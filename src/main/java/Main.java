@@ -11,7 +11,8 @@ public class Main {
         IReadFile readFile = new Csv();
         List<Employee> employees = readFile.readEmployeeFromFile(filePath);
         for (Employee employee : employees) {
-            System.out.println(employee.getAgeFromDob());
+            System.out.println("AGE: " + employee.getAge());
+            System.out.println("Curent salary: " + employee.getSalary());
         }
     }
 }
